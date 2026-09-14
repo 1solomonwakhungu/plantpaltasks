@@ -3,3 +3,102 @@
   padding: 0;
   margin: 0;
 }
+
+/* Motion tokens — shared scale (transitions.dev). Reference via var(--…) */
+:root {
+  /* Durations */
+  --duration-stagger: 40ms;
+  --duration-micro: 80ms;
+  --duration-quick: 150ms;
+  --duration-fast: 250ms;
+  --duration-medium: 350ms;
+  --duration-slow: 400ms;
+  --duration-very-slow: 500ms;
+  /* Easings */
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: ease-in-out;
+  --ease-out: ease-out;
+  --ease-linear: linear;
+  --ease-bounce: cubic-bezier(0.34, 1.36, 0.64, 1);
+  --ease-bounce-strong: cubic-bezier(0.34, 3.85, 0.64, 1);
+  /* Distances */
+  --distance-micro: 4px;
+  --distance-small: 6px;
+  --distance-base: 8px;
+  --distance-medium: 12px;
+  --distance-large: 30px;
+  /* Scales */
+  --scale-large: 0.96;
+  --scale-medium: 0.97;
+  --scale-small: 0.98;
+  --scale-tiny: 0.99;
+  /* Blur */
+  --blur-small: 2px;
+  --blur-medium: 3px;
+  --blur-large: 8px;
+}
+
+/* View swap (landing ↔ chat): page-slide usage — 250ms, 8px rise, 3px blur,
+   symmetric both ways. */
+@keyframes motion-view-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--distance-base));
+    filter: blur(var(--blur-medium));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.motion-view-enter {
+  animation: motion-view-enter var(--duration-fast) var(--ease-smooth-out) both;
+}
+
+/* Chat message entrance: frequent, so quick and small — 250ms, 8px, 2px blur. */
+@keyframes motion-message-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--distance-base));
+    filter: blur(var(--blur-small));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.motion-message-enter {
+  animation: motion-message-enter var(--duration-fast) var(--ease-smooth-out) both;
+}
+
+/* Hero stagger: 40ms per item, capped at 4 items (120ms total, under ~300ms). */
+.motion-stagger > * {
+  animation: motion-view-enter var(--duration-fast) var(--ease-smooth-out) both;
+}
+
+.motion-stagger > *:nth-child(2) {
+  animation-delay: var(--duration-stagger);
+}
+
+.motion-stagger > *:nth-child(3) {
+  animation-delay: calc(var(--duration-stagger) * 2);
+}
+
+.motion-stagger > *:nth-child(4) {
+  animation-delay: calc(var(--duration-stagger) * 3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
