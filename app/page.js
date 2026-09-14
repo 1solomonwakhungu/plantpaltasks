@@ -25,6 +25,7 @@ export default function Home() {
           alignItems="center" 
           width="100%" 
           height="100%" 
+          className="motion-view-enter"
         >
           <Stack 
             direction="row" 
@@ -38,7 +39,7 @@ export default function Home() {
           >
             <IconButton 
               onClick={handleGoBack} 
-              sx={{ color: 'white', padding: '10px', backgroundColor: '#9bd9ad' }}
+              sx={{ color: 'white', padding: '10px', backgroundColor: '#9bd9ad', transition: 'background-color var(--duration-quick) var(--ease-smooth-out)' }}
             >
               <ArrowBackIcon />
             </IconButton>
@@ -50,7 +51,7 @@ export default function Home() {
         </Stack>
       ) : (
         <>
-          <Box display="flex" flexDirection="column" alignItems="flex-start" paddingLeft="20px" width='50vw'>
+          <Box display="flex" flexDirection="column" alignItems="flex-start" paddingLeft="20px" width='50vw' className="motion-stagger">
             <Typography variant={'h1'} color={'#06a177'} textAlign={'left'} fontWeight={"bold"} paddingBottom={'25px'}>
               PlantPal
             </Typography>
@@ -73,6 +74,7 @@ export default function Home() {
                 borderRadius: "30px",
                 width: '150px', 
                 height: '50px',
+                transition: 'background-color var(--duration-quick) var(--ease-smooth-out), box-shadow var(--duration-quick) var(--ease-smooth-out), border-color var(--duration-quick) var(--ease-smooth-out)',
                 '&:hover': {
                   backgroundColor: '#06a177',
                 },
@@ -86,6 +88,7 @@ export default function Home() {
             component="img"
             src={'/plantRobot.png'}
             alt="AI Robot"
+            className="motion-view-enter"
             sx={{ 
               maxWidth: '400px', 
               height: 'auto', 

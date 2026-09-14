@@ -139,7 +139,10 @@ export default function Chat() {
   const messagesEndRef = useRef(null)
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    const reduceMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    messagesEndRef.current?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' })
   }
 
   useEffect(() => {
@@ -180,6 +183,7 @@ export default function Chat() {
           {messages.map((message, index) => (
             <Box
             key={index}
+            className="motion-message-enter"
             display="flex"
             justifyContent={
               message.role === 'assistant' ? 'flex-start' : 'flex-end'
@@ -242,6 +246,9 @@ export default function Chat() {
                 borderRadius: '30px', 
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '30px',
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    transition: 'border-color var(--duration-quick) var(--ease-smooth-out)',
+                  },
                   '&:hover fieldset': {
                     borderColor: '#048c66', 
                   },
@@ -256,6 +263,7 @@ export default function Chat() {
           sx={{
             borderRadius: '15px',
             backgroundColor: '#06a177', 
+            transition: 'background-color var(--duration-quick) var(--ease-smooth-out), box-shadow var(--duration-quick) var(--ease-smooth-out), border-color var(--duration-quick) var(--ease-smooth-out)',
             '&:hover': {
               backgroundColor: '#048c66',
             },
